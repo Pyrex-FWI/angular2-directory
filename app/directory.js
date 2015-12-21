@@ -10,11 +10,17 @@ System.register([], function(exports_1) {
                     this.name = serverData.name;
                     this.pathName = serverData.pathName;
                 }
+                Directory.prototype.getName = function () {
+                    return this.name;
+                };
+                Directory.prototype.getPathName = function () {
+                    return this.pathName;
+                };
                 Directory.prototype.toggle = function () {
                     this.expanded = !this.expanded;
-                    this.loadChildren();
                 };
-                Directory.prototype.loadChildren = function () {
+                Directory.prototype.setChildren = function (child) {
+                    this.child = child;
                 };
                 return Directory;
             })();

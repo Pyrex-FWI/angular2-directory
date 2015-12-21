@@ -11,12 +11,19 @@ export class Directory {
         this.pathName = serverData.pathName;
     }
 
-    toggle(){
-        this.expanded = ! this.expanded;
-        this.loadChildren();
+    getName(): string {
+        return this.name;
     }
 
-    loadChildren(){
+    getPathName(): string {
+        return this.pathName;
+    }
 
+    toggle(){
+        this.expanded = !this.expanded;
+    }
+
+    setChildren(child: Directory[]){
+        this.child = child;
     }
 }

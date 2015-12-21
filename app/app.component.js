@@ -1,4 +1,4 @@
-System.register(['angular2/core', './directory.service', './directory-tree.component'], function(exports_1) {
+System.register(['angular2/core', './directory', './directory.service', './directory-tree.component'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,12 +8,15 @@ System.register(['angular2/core', './directory.service', './directory-tree.compo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, directory_service_1, directory_tree_component_1;
+    var core_1, directory_1, directory_service_1, directory_tree_component_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (directory_1_1) {
+                directory_1 = directory_1_1;
             },
             function (directory_service_1_1) {
                 directory_service_1 = directory_service_1_1;
@@ -26,6 +29,7 @@ System.register(['angular2/core', './directory.service', './directory-tree.compo
                 function AppComponent(_directoryService) {
                     this._directoryService = _directoryService;
                     this.title = 'Tour of Heroes';
+                    this.selectedDir = new directory_1.Directory({ name: 'Test', pathName: 'Path' });
                 }
                 AppComponent.prototype.getDirectories = function () {
                     var _this = this;
@@ -36,13 +40,18 @@ System.register(['angular2/core', './directory.service', './directory-tree.compo
                     console.log('ngOnInit was called');
                     this.getDirectories();
                 };
+                AppComponent.prototype.selectDir = function (dir) {
+                    console.log('AppComponent SelectDir');
+                    console.log(dir);
+                    this.selectedDir = dir;
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'angular-app',
                         directives: [directory_tree_component_1.DirectoryTreeCompoenent],
                         providers: [directory_service_1.DirectoryService],
                         styles: [""],
-                        template: "<h1>{{title}}</h1>\n    <directory-tree [directories]=\"directories\" [selectedDir]=\"selectedDir\"></directory-tree>"
+                        template: "<h1>{{title}}</h1>--{{selectedDir.getName()}}--\n    <directory-tree [directories]=\"directories\" (selectedChange)=\"selectDir($event)\"></directory-tree>"
                     }), 
                     __metadata('design:paramtypes', [directory_service_1.DirectoryService])
                 ], AppComponent);

@@ -8,13 +8,13 @@ import {DirectoryTreeCompoenent} from './directory-tree.component';
     directives: [DirectoryTreeCompoenent],
     providers: [DirectoryService],
     styles:[``],
-    template:`<h1>{{title}}</h1>
-    <directory-tree [directories]="directories" [selectedDir]="selectedDir"></directory-tree>`
+    template:`<h1>{{title}}</h1>--{{selectedDir.getName()}}--
+    <directory-tree [directories]="directories" (selectedChange)="selectDir($event)"></directory-tree>`
 })
 export class AppComponent implements OnInit{
     public title = 'Tour of Heroes';
     public directories: Directory[];
-    public selectedDir: Directory;
+    public selectedDir:  Directory = new Directory({name:'Test', pathName:'Path'});
 
     constructor(private _directoryService: DirectoryService) { }
 
@@ -26,5 +26,11 @@ export class AppComponent implements OnInit{
     ngOnInit() {
         console.log('ngOnInit was called');
         this.getDirectories();
+    }
+
+    selectDir(dir) {
+        console.log('AppComponent SelectDir');
+        console.log(dir);
+        this.selectedDir = dir;
     }
 }
