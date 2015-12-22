@@ -6,7 +6,7 @@ System.register([], function(exports_1) {
             TreeView = (function () {
                 function TreeView() {
                     //directories: Array<Directory>;
-                    this.directories = [new Directory('Test')];
+                    this.directories = [new FsItem('Test')];
                     this.selectedDir = null;
                     this.debug = JSON.stringify(this.directories);
                 }

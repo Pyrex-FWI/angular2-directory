@@ -1,0 +1,11 @@
+{
+  "name": "dir-manager",
+  "description": "Description",
+  "main": "index.js",
+  "license": "ISC",
+  "homepage": "https://github.com/Pyrex-FWI/angular2-directory",
+  "moduleType": [],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

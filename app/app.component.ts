@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {Directory} from './directory';
+import {FsItem, FsDirectory} from './file-system';
 import {DirectoryService} from './directory.service';
 import {DirectoryTreeCompoenent} from './directory-tree.component';
 
@@ -8,13 +8,16 @@ import {DirectoryTreeCompoenent} from './directory-tree.component';
     directives: [DirectoryTreeCompoenent],
     providers: [DirectoryService],
     styles:[``],
-    template:`<h1>{{title}}</h1>--{{selectedDir.getName()}}--
-    <directory-tree [directories]="directories" (selectedChange)="selectDir($event)"></directory-tree>`
+    //template:`<h1>{{title}}</h1>--{{selectedDir.getName()}}--
+    //<directory-tree [directories]="directories" (selectedChange)="selectDir($event)"></directory-tree>`,
+    templateUrl: 'app/app.html',
+
 })
 export class AppComponent implements OnInit{
-    public title = 'Tour of Heroes';
-    public directories: Directory[];
-    public selectedDir:  Directory = new Directory({name:'Test', pathName:'Path'});
+    public title = 'Sapar TM';
+    public directories: FsDirectory[];
+    public selectedDir:  FsDirectory = new FsDirectory({name:'', pathName:''});
+    public curentDirContent: any;
 
     constructor(private _directoryService: DirectoryService) { }
 
@@ -32,5 +35,10 @@ export class AppComponent implements OnInit{
         console.log('AppComponent SelectDir');
         console.log(dir);
         this.selectedDir = dir;
+        this._directoryService.getDirectoryContent(dir).then(
+            (files) => {
+                this.curentDirContent = files;
+                console.log(files);
+            });
     }
 }

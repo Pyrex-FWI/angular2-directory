@@ -28,16 +28,26 @@ System.register(['angular2/core', 'angular2/common', './directory.service'], fun
                     this.updateSelected = new core_1.EventEmitter();
                     this.selectedDir = null;
                 }
+                /**
+                 * Toggle for expand +/-
+                 * Load children dir if did'not yet
+                 * @param dir
+                 */
                 DirectoryTreeCompoenent.prototype.toggle = function (dir) {
                     dir.toggle();
                     if (!dir.childLoaded) {
-                        this._directoryService.getDirectories(dir.getPathName()).then(function (directories) {
+                        this._directoryService.getDirectories(dir.getPathName())
+                            .then(function (directories) {
                             dir.setChildren(directories);
                             dir.childLoaded = true;
                             console.log(dir);
                         });
                     }
                 };
+                /**
+                 *
+                 * @param dir
+                 */
                 DirectoryTreeCompoenent.prototype.select = function (dir) {
                     this.selectedDir = dir;
                     console.log(dir.getName());
@@ -50,7 +60,6 @@ System.register(['angular2/core', 'angular2/common', './directory.service'], fun
                         outputs: ['updateSelected: selectedChange'],
                         directives: [common_1.CORE_DIRECTIVES, DirectoryTreeCompoenent],
                         providers: [directory_service_1.DirectoryService],
-                        //template: '<ul><li *ngFor="#dir of directories">{{dir.name}}</li></ul>'
                         templateUrl: 'app/directory-tree.html',
                     }), 
                     __metadata('design:paramtypes', [directory_service_1.DirectoryService])

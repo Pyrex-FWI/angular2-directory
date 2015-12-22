@@ -1,0 +1,16 @@
+html,body {
+    height:98%;
+    margin:0;
+}
+
+body {
+    overflow-y: hidden;
+    background-color: #99cfe7;
+    border: solid 1px;
+}
+
+.left {
+ border: solid 1px salmon;
+    max-height: 500px;
+    overflow-y: scroll;;
+}

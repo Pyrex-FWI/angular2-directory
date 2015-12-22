@@ -1,10 +1,13 @@
 import {Injectable} from 'angular2/core';
-import {Directory} from './directory';
+import {FsItem, FsDirectory} from './file-system';
+
 @Injectable()
 export class DirectoryService {
 
-    private getUri(value?: string): string{
-        var base = 'http://localhost:8181/dir';
+    private baseUrl: string = "http://localhost:8181";
+
+    private getDirectoryUri(endpoint:string, value?: string): string{
+        var base = this.baseUrl + endpoint;
         if (!!value) {
             base += '?path=' + value;
         }
@@ -13,28 +16,42 @@ export class DirectoryService {
 
     /**
      * Simulate a slowly resposnse
-     * @returns {Promise<T>}
+     * @returns {Promise<FsDirectory>}
      */
-    getDirectories(value?: string) : Promise<Directory[]>{
-        //return [{ name: "2002", pathName: "path/to/dir"}, { name: "2003", pathName: "path/to/dir2"} ];
-            console.log('Directory service getDirectory');
-            console.log(this.getUri(value));
-            this.fetchPromise = window.fetch(this.getUri(value))
-                .then((result:any) => result.json())
-                .then((json:any) => {
-                    return json.map(dir => this.parseDir(dir))
-                });
-        //}
-        return this.fetchPromise;
+    getDirectories(value?: string) : Promise<FsDirectory[]>{
+        console.log('Directory service getDirectory');
+        console.log(this.getDirectoryUri('/dir',value));
+        return window.fetch(this.getDirectoryUri('/dir', value))
+            .then((result:any) => result.json())
+            .then((json:any) => {
+                return json.map(dir => this.parseFsDir(dir))
+            });
     }
 
     /**
      *
-     * @param serverDir
-     * @returns {Directory}
+     * @param serverFs
+     * @returns {FsDirectory}
      */
-    parseDir(serverDir) : Directory {
-        return new Directory(serverDir);
+    parseFsDir(serverFs) : FsDirectory {
+        return new FsDirectory(serverFs);
     }
 
+    /**
+     *
+     * @param serverFs
+     * @returns {FsItem}
+     */
+    parseFsItem(serverFs) : FsItem {
+        return new FsItem(serverFs);
+    }
+
+    getDirectoryContent(dir: FsItem): Promise<FsItem> {
+        console.log('Directory service getDirectoryContent');
+        return window.fetch(this.getDirectoryUri('/content-dir', dir.getPathName()))
+            .then((result:any) => result.json())
+            .then((json:any) => {
+                return json.map(dir => this.parseFsItem(dir))
+            });
+    }
 }

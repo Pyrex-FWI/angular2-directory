@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12"><h1>{{title}}</h1></div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 dir-list left">
+            <directory-tree [directories]="directories" (selectedChange)="selectDir($event)"></directory-tree>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>{{selectedDir.getName()}}</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul>
+                        <li *ngFor="#file of curentDirContent">
+                            {{file.getName()}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
