@@ -49,7 +49,11 @@ System.register(['angular2/core', 'angular2/common', './directory.service'], fun
                  * @param dir
                  */
                 DirectoryTreeCompoenent.prototype.select = function (dir) {
+                    if (this.selectedDir) {
+                        this.selectedDir.selected = false;
+                    }
                     this.selectedDir = dir;
+                    dir.selected = true;
                     console.log(dir.getName());
                     this.updateSelected.emit(dir);
                 };
@@ -58,6 +62,7 @@ System.register(['angular2/core', 'angular2/common', './directory.service'], fun
                         selector: 'directory-tree',
                         inputs: ['directories: directories', 'selectedDir: selectedDir'],
                         outputs: ['updateSelected: selectedChange'],
+                        styleUrls: ['app/directory-tree.css'],
                         directives: [common_1.CORE_DIRECTIVES, DirectoryTreeCompoenent],
                         providers: [directory_service_1.DirectoryService],
                         templateUrl: 'app/directory-tree.html',

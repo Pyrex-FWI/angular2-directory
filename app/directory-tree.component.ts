@@ -7,6 +7,7 @@ import {DirectoryService} from './directory.service';
     selector: 'directory-tree',
     inputs: ['directories: directories', 'selectedDir: selectedDir'],
     outputs: ['updateSelected: selectedChange'],
+    styleUrls: ['app/directory-tree.css'],
     directives: [CORE_DIRECTIVES, DirectoryTreeCompoenent],
     providers: [DirectoryService],
     templateUrl: 'app/directory-tree.html',
@@ -16,7 +17,6 @@ export class DirectoryTreeCompoenent {
     private updateSelected: EventEmitter<T> = new EventEmitter();
     public directories:  FsItem[];
     public selectedDir: FsItem = null;
-
     constructor(private _directoryService: DirectoryService) { }
 
     /**
@@ -44,7 +44,11 @@ export class DirectoryTreeCompoenent {
      * @param dir
      */
     public select(dir: FsItem) {
+        if (this.selectedDir) {
+            this.selectedDir.selected = false;
+        }
         this.selectedDir = dir;
+        dir.selected = true
         console.log(dir.getName());
         this.updateSelected.emit(dir);
     }

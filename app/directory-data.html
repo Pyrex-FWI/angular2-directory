@@ -1,0 +1,26 @@
+<div>
+    <p>
+        Genre <span class="badge">{{currentDirGenre.length}}</span>:
+                            <span *ngFor="#genre of currentDirGenre; #i = index; #l = last" >
+                                <span class="label label-default">{{genre}}</span>
+                                <!-- {{l == 1? ' ':', '}} -->
+                            </span>
+    </p>
+    <p>
+        Year <span class="badge">{{currentDirYear.length}}</span>:
+                            <span *ngFor="#year of currentDirYear; #i = index; #l = last">
+                                  <span class="label label-primary">{{year}}</span>
+                              </span>
+    </p>
+</div>
+
+<p *ngIf="currentDirGenre.length == 1 && currentDirYear.length == 1 && !alreadyInStackAction(selectedDir)">
+    <button type="button" class="btn btn-success btn-xs" (click)="moveToCollection(selectedDir)" >
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        Add to collection
+    </button>
+    <button type="button" class="btn btn-danger btn-xs" (click)="moveToDelete(selectedDir)" >
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        Add to Delete
+    </button>
+</p>

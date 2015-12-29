@@ -22,6 +22,8 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
             DirectoryService = (function () {
                 function DirectoryService() {
                     this.baseUrl = "http://localhost:8181";
+                    this.moveStack = [];
+                    this.deleteStack = [];
                 }
                 DirectoryService.prototype.getDirectoryUri = function (endpoint, value) {
                     var base = this.baseUrl + endpoint;
@@ -30,6 +32,9 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                     }
                     return base;
                 };
+                DirectoryService.prototype.getStreamUri = function (item) {
+                    return 'http://localhost:8182/stream?file=' + item.getPathName();
+                };
                 /**
                  * Simulate a slowly resposnse
                  * @returns {Promise<FsDirectory>}
@@ -37,8 +42,8 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                 DirectoryService.prototype.getDirectories = function (value) {
                     var _this = this;
                     console.log('Directory service getDirectory');
-                    console.log(this.getDirectoryUri('/dir', value));
-                    return window.fetch(this.getDirectoryUri('/dir', value))
+                    console.log(this.getDirectoryUri('/dirs', value));
+                    return window.fetch(this.getDirectoryUri('/dirs', value))
                         .then(function (result) { return result.json(); })
                         .then(function (json) {
                         return json.map(function (dir) { return _this.parseFsDir(dir); });
@@ -63,11 +68,69 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                 DirectoryService.prototype.getDirectoryContent = function (dir) {
                     var _this = this;
                     console.log('Directory service getDirectoryContent');
-                    return window.fetch(this.getDirectoryUri('/content-dir', dir.getPathName()))
+                    return window.fetch(this.getDirectoryUri('/dir-content', dir.getPathName()))
                         .then(function (result) { return result.json(); })
                         .then(function (json) {
                         return json.map(function (dir) { return _this.parseFsItem(dir); });
                     });
+                };
+                /**
+                 *
+                 * @param dir
+                 * @returns {any}
+                 */
+                DirectoryService.prototype.getDirectoryGenre = function (dir) {
+                    console.log('Directory service getDirectoryContent');
+                    return window.fetch(this.getDirectoryUri('/dir-genre', dir.getPathName()))
+                        .then(function (result) { return result.json(); });
+                };
+                DirectoryService.prototype.applyGenreYear = function (dir, genre, year) {
+                    console.log(genre);
+                    console.log(year);
+                    url = this.baseUrl + '/set-matadata?path=' + dir.getPathName() + '&g=' + genre + '&y=' + year;
+                    return window.fetch(url, {
+                        mode: 'no-cors'
+                    });
+                };
+                DirectoryService.prototype.applyMove = function () {
+                    var _this = this;
+                    if (this.moveStack.length === 0) {
+                        return;
+                    }
+                    dir = this.moveStack.shift();
+                    console.log(dir);
+                    url = this.baseUrl + '/move?path=' + dir.pathName;
+                    console.log(url);
+                    window.fetch(url, {
+                        mode: 'no-cors'
+                    })
+                        .then(function (result) { return console.log(result.json()); })
+                        .then(function (json) {
+                        if (_this.moveStack.length > 0) {
+                            return _this.applyMove();
+                        }
+                    });
+                    Lockr.set('moveToCollection', this.moveStack);
+                };
+                DirectoryService.prototype.applyDelete = function () {
+                    var _this = this;
+                    if (this.deleteStack.length === 0) {
+                        return;
+                    }
+                    dir = this.deleteStack.shift();
+                    console.log(dir);
+                    url = this.baseUrl + '/delete?path=' + dir.pathName;
+                    console.log(url);
+                    window.fetch(url, {
+                        mode: 'no-cors'
+                    })
+                        .then(function (result) { return console.log(result.json()); })
+                        .then(function (json) {
+                        if (_this.deleteStack.length > 0) {
+                            return _this.applyDelete();
+                        }
+                    });
+                    Lockr.set('rmCollectionQueue', this.deleteStack);
                 };
                 DirectoryService = __decorate([
                     core_1.Injectable(), 

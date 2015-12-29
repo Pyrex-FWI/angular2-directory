@@ -5,10 +5,8 @@
                 <span *ngIf="dir.expanded">-</span>
                 <span *ngIf="!dir.expanded">+</span>
             </a>
-            <a (click)="select(dir)">{{ dir.getName() }}</a>
+            <a (click)="select(dir)" [ngClass]="{selected: dir.selected}">{{ dir.getName() }}</a>
         </span>
-        <div *ngIf="dir.expanded && dir.childLoaded">
-            <directory-tree [directories]="dir.child" (selectedChange)="select($event)"></directory-tree>
-        </div>
+        <directory-tree *ngIf="dir.expanded && dir.childLoaded" [directories]="dir.child" (selectedChange)="select($event)"></directory-tree>
     </li>
 </ul>

@@ -3,6 +3,7 @@ export class FsItem {
     private name: string;
     private pathName: string;
     private isDir: boolean;
+    public selected: boolean = false;
 
     constructor(serverData) {
         this.name = serverData.name;

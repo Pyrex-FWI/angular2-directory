@@ -1,0 +1,7 @@
+li {
+    white-space: nowrap;
+}
+li a.selected {
+    font-weight: bold;
+    color: #1a2c51;
+}

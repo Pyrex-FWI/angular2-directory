@@ -1,16 +1,122 @@
 html,body {
-    height:98%;
+    height:100%;
     margin:0;
 }
 
 body {
-    overflow-y: hidden;
-    background-color: #99cfe7;
     border: solid 1px;
 }
 
-.left {
- border: solid 1px salmon;
-    max-height: 500px;
-    overflow-y: scroll;;
+div.container-fluid {
+    height: 100%;
+    overflow-y: hidden;
 }
+.left-pane {
+    border-right: solid 2px gray;
+    position: absolute;
+    left:0%;
+    top:0%;
+    bottom: 0%;
+    overflow-y: scroll;
+    padding-left: 0px;
+    background-color:#acc6b8
+}
+.right-pane {
+    position: absolute;
+    right: 0%;
+    top:0%;
+    bottom:0%;
+    overflow: hidden;
+    background-color: #d4ca7b;
+    padding-left:0px;
+}
+.player {
+    background-color:#c795d4;
+    position: absolute;
+    padding-left:0px;
+    bottom: 0px;
+}
+
+.top-left {
+    position: absolute;
+    height: 50%;
+    overflow: scroll;
+    background-color: #5bd484;
+    padding-left:0px;
+    left: 0px;
+}
+.top-right {
+    position: absolute;
+    height: 50%;
+    overflow: scroll;
+    background-color: #8cd4a7;
+    padding-left:0px;
+    right: 0px;
+}
+
+.bottom-left {
+    position: absolute;
+    height: 50%;
+    bottom: 0%;
+    left: 0px;
+    padding-left:0px;
+    background-color: #8074b6;
+    overflow: scroll;
+}
+.bottom-right {
+    position: absolute;
+    height: 50%;
+    bottom: 0%;
+    right: 0px;
+    padding-left:0px;
+    background-color: thistle;
+    overflow: scroll;
+}
+
+.left-pane ul {
+    list-style: none;
+    line-height: 1.4em;
+    font-family: Arial;
+}
+.left-pane ul li {
+    font-size: 16px;
+    position: relative;
+}
+.left-pane ul li:before {
+    position: absolute;
+    left: -15px;
+    top: 0px;
+    content: '';
+    display: block;
+    border-left: 1px solid #ddd;
+    height: 1em;
+    border-bottom: 1px solid #ddd;
+    width: 10px;
+}
+.left-pane ul li:after {
+    position: absolute;
+    left: -15px;
+    bottom: -7px;
+    content: '';
+    display: block;
+    border-left: 1px solid #ddd;
+    height: 100%;
+}
+.left-pane ul li.root {
+    margin: 0px 0px 0px -20px;
+}
+.left-pane ul li.root:before {
+    display: none;
+}
+.left-pane ul li.root:after {
+    display: none;
+}
+.left-pane ul li:last-child:after {
+    display: none;
+}
+
+.rigth-pane {
+}
+
+
+

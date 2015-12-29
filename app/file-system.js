@@ -10,6 +10,7 @@ System.register([], function(exports_1) {
         execute: function() {
             FsItem = (function () {
                 function FsItem(serverData) {
+                    this.selected = false;
                     this.name = serverData.name;
                     this.pathName = serverData.pathName;
                     this.isDir = serverData.isDir;
