@@ -4,7 +4,7 @@ import {FsItem, FsDirectory} from './file-system';
 @Injectable()
 export class DirectoryService {
 
-    private baseUrl: string = "http://localhost:8181";
+    private baseUrl: string = "http://sapar/audio_api/web";
 
     public moveStack = [];
     public deleteStack = [];
@@ -18,7 +18,7 @@ export class DirectoryService {
     }
 
     public getStreamUri(item:FsItem): string {
-        return 'http://localhost:8182/stream?file=' + item.getPathName();
+        return 'http://sapar/audio_api/web/stream?file=' + item.getPathName();
     }
 
     /**
@@ -27,8 +27,8 @@ export class DirectoryService {
      */
     getDirectories(value?: string) : Promise<FsDirectory[]>{
         console.log('Directory service getDirectory');
-        console.log(this.getDirectoryUri('/dirs',value));
-        return window.fetch(this.getDirectoryUri('/dirs', value))
+        console.log(this.getDirectoryUri('/directory',value));
+        return window.fetch(this.getDirectoryUri('/directory', value))
             .then((result:any) => result.json())
             .then((json:any) => {
                 return json.map(dir => this.parseFsDir(dir))
@@ -55,7 +55,7 @@ export class DirectoryService {
 
     getDirectoryContent(dir: FsItem): Promise<FsItem> {
         console.log('Directory service getDirectoryContent');
-        return window.fetch(this.getDirectoryUri('/dir-content', dir.getPathName()))
+        return window.fetch(this.getDirectoryUri('/directory/content', dir.getPathName()))
             .then((result:any) => result.json())
             .then((json:any) => {
                 return json.map(dir => this.parseFsItem(dir))
@@ -69,14 +69,14 @@ export class DirectoryService {
      */
     getDirectoryGenre(dir: FsItem): Promise<FsItem> {
         console.log('Directory service getDirectoryContent');
-        return window.fetch(this.getDirectoryUri('/dir-genre', dir.getPathName()))
+        return window.fetch(this.getDirectoryUri('/directory/genre', dir.getPathName()))
             .then((result:any) => result.json());
     }
 
     applyGenreYear(dir: FsItem, genre, year): void {
         console.log(genre);
         console.log(year);
-        url = this.baseUrl + '/set-matadata?path='+dir.getPathName()+'&g='+genre+'&y='+year;
+        url = this.baseUrl + '/directory/set-metadata?path='+dir.getPathName()+'&g='+genre+'&y='+year;
         return window.fetch(url,  {
             mode: 'no-cors'
         });
@@ -88,13 +88,15 @@ export class DirectoryService {
         }
         dir = this.moveStack.shift();
         console.log(dir);
-        url = this.baseUrl + '/move?path='+dir.pathName;
+        //url = this.baseUrl + '/move?path='+dir.pathName;
+        url = this.baseUrl + '/directory/move?path='+dir.pathName;
         console.log(url);
         window.fetch(url,  {
             mode: 'no-cors'
         })
         .then((result:any) => console.log(result.json()))
         .then((json:any) => {
+            console.log(json);
             if (this.moveStack.length > 0) {
                 return this.applyMove();
             }
@@ -107,13 +109,12 @@ export class DirectoryService {
             return;
         }
         dir = this.deleteStack.shift();
-        console.log(dir);
-        url = this.baseUrl + '/delete?path='+dir.pathName;
-        console.log(url);
+        //console.log(dir);
+        url = "http://sapar/audio_api/web/directory/delete?path="+dir.pathName;
+        //console.log(url);
         window.fetch(url,  {
                 mode: 'no-cors'
             })
-            .then((result:any) => console.log(result.json()))
             .then((json:any) => {
                 if (this.deleteStack.length > 0) {
                     return this.applyDelete();

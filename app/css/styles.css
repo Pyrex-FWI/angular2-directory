@@ -5,6 +5,10 @@ html,body {
 
 body {
     border: solid 1px;
+    background-color: #EEEEEE;
+}
+.panel {
+    margin-bottom: 0px;
 }
 
 div.container-fluid {
@@ -19,7 +23,9 @@ div.container-fluid {
     bottom: 0%;
     overflow-y: scroll;
     padding-left: 0px;
-    background-color:#acc6b8
+}
+div.left-pane > ul, div.left-pane ul > directory-tree  ul {
+    padding-left: 10px;
 }
 .right-pane {
     position: absolute;
@@ -27,7 +33,7 @@ div.container-fluid {
     top:0%;
     bottom:0%;
     overflow: hidden;
-    background-color: #d4ca7b;
+    //background-color: #d4ca7b;
     padding-left:0px;
 }
 .player {
@@ -40,16 +46,28 @@ div.container-fluid {
 .top-left {
     position: absolute;
     height: 50%;
-    overflow: scroll;
-    background-color: #5bd484;
     padding-left:0px;
+    padding-right:0px;
     left: 0px;
+}
+
+.top-left .panel-body, .bottom-left .panel-body, .bottom-right .panel-body{
+    position: absolute;
+    overflow: scroll;
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    padding-bottom: 20px;
+}
+.top-left .panel-heading {
+    text-overflow: inherit;
+    white-space: nowrap;
 }
 .top-right {
     position: absolute;
     height: 50%;
     overflow: scroll;
-    background-color: #8cd4a7;
+    //background-color: #8cd4a7;
     padding-left:0px;
     right: 0px;
 }
@@ -60,17 +78,18 @@ div.container-fluid {
     bottom: 0%;
     left: 0px;
     padding-left:0px;
-    background-color: #8074b6;
-    overflow: scroll;
+    padding-right: 0px;
+    background-color: #EEE;
 }
+
 .bottom-right {
     position: absolute;
     height: 50%;
     bottom: 0%;
     right: 0px;
     padding-left:0px;
-    background-color: thistle;
-    overflow: scroll;
+    padding-right: 0px;
+    //background-color: thistle;
 }
 
 .left-pane ul {
@@ -115,8 +134,25 @@ div.container-fluid {
     display: none;
 }
 
-.rigth-pane {
+.color-black{
+    color: black;
 }
 
+div.panel-heading > h4 {
+    display: inline-block;
+}
+
+ul.action-link-list, ul.action-link-list li {
+    display: inline;
+    float: right;
+}
+ul.action-link-list {
+    list-style: none;
+    padding: 0px;
+
+}
+.bottom-left .btn, .bottom-right .btn {
+    margin: 0px;
+}
 
 

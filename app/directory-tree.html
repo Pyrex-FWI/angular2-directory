@@ -2,8 +2,8 @@
     <li *ngFor="#dir of directories">
         <span>
             <a (click)="toggle(dir)">
-                <span *ngIf="dir.expanded">-</span>
-                <span *ngIf="!dir.expanded">+</span>
+                <span *ngIf="dir.expanded" class="glyphicon glyphicon-folder-open"></span>
+                <span *ngIf="!dir.expanded" class="glyphicon glyphicon-folder-close"></span>
             </a>
             <a (click)="select(dir)" [ngClass]="{selected: dir.selected}">{{ dir.getName() }}</a>
         </span>

@@ -21,7 +21,7 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
         execute: function() {
             DirectoryService = (function () {
                 function DirectoryService() {
-                    this.baseUrl = "http://localhost:8181";
+                    this.baseUrl = "http://sapar/audio_api/web";
                     this.moveStack = [];
                     this.deleteStack = [];
                 }
@@ -33,7 +33,7 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                     return base;
                 };
                 DirectoryService.prototype.getStreamUri = function (item) {
-                    return 'http://localhost:8182/stream?file=' + item.getPathName();
+                    return 'http://sapar/audio_api/web/stream?file=' + item.getPathName();
                 };
                 /**
                  * Simulate a slowly resposnse
@@ -42,8 +42,8 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                 DirectoryService.prototype.getDirectories = function (value) {
                     var _this = this;
                     console.log('Directory service getDirectory');
-                    console.log(this.getDirectoryUri('/dirs', value));
-                    return window.fetch(this.getDirectoryUri('/dirs', value))
+                    console.log(this.getDirectoryUri('/directory', value));
+                    return window.fetch(this.getDirectoryUri('/directory', value))
                         .then(function (result) { return result.json(); })
                         .then(function (json) {
                         return json.map(function (dir) { return _this.parseFsDir(dir); });
@@ -68,7 +68,7 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                 DirectoryService.prototype.getDirectoryContent = function (dir) {
                     var _this = this;
                     console.log('Directory service getDirectoryContent');
-                    return window.fetch(this.getDirectoryUri('/dir-content', dir.getPathName()))
+                    return window.fetch(this.getDirectoryUri('/directory/content', dir.getPathName()))
                         .then(function (result) { return result.json(); })
                         .then(function (json) {
                         return json.map(function (dir) { return _this.parseFsItem(dir); });
@@ -81,13 +81,13 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                  */
                 DirectoryService.prototype.getDirectoryGenre = function (dir) {
                     console.log('Directory service getDirectoryContent');
-                    return window.fetch(this.getDirectoryUri('/dir-genre', dir.getPathName()))
+                    return window.fetch(this.getDirectoryUri('/directory/genre', dir.getPathName()))
                         .then(function (result) { return result.json(); });
                 };
                 DirectoryService.prototype.applyGenreYear = function (dir, genre, year) {
                     console.log(genre);
                     console.log(year);
-                    url = this.baseUrl + '/set-matadata?path=' + dir.getPathName() + '&g=' + genre + '&y=' + year;
+                    url = this.baseUrl + '/directory/set-metadata?path=' + dir.getPathName() + '&g=' + genre + '&y=' + year;
                     return window.fetch(url, {
                         mode: 'no-cors'
                     });
@@ -99,13 +99,15 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                     }
                     dir = this.moveStack.shift();
                     console.log(dir);
-                    url = this.baseUrl + '/move?path=' + dir.pathName;
+                    //url = this.baseUrl + '/move?path='+dir.pathName;
+                    url = this.baseUrl + '/directory/move?path=' + dir.pathName;
                     console.log(url);
                     window.fetch(url, {
                         mode: 'no-cors'
                     })
                         .then(function (result) { return console.log(result.json()); })
                         .then(function (json) {
+                        console.log(json);
                         if (_this.moveStack.length > 0) {
                             return _this.applyMove();
                         }
@@ -118,13 +120,12 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                         return;
                     }
                     dir = this.deleteStack.shift();
-                    console.log(dir);
-                    url = this.baseUrl + '/delete?path=' + dir.pathName;
-                    console.log(url);
+                    //console.log(dir);
+                    url = "http://sapar/audio_api/web/directory/delete?path=" + dir.pathName;
+                    //console.log(url);
                     window.fetch(url, {
                         mode: 'no-cors'
                     })
-                        .then(function (result) { return console.log(result.json()); })
                         .then(function (json) {
                         if (_this.deleteStack.length > 0) {
                             return _this.applyDelete();

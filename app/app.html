@@ -3,7 +3,7 @@
         <div class="col-md-3 dir-list left-pane">
             <ul>
                 <li class="directory-tree-root">
-                    Root
+                    Root <span class="badge">{{directories.length}}</span>
                     <span> <a href="#" (click)="getDirectories()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a> </span></li>
                 <directory-tree class="directory-tree" [directories]="directories" (selectedChange)="selectDir($event)"></directory-tree>
             </ul>
@@ -19,14 +19,29 @@
                 </div>
             </div-->
             <div class="rowv first">
-                <div class="col-md-6  directory-content-list top-left">
-                    <ul>
-                        <li *ngFor="#file of currentDirContent">
-                            <a (click)="currentFile=file">{{file.getName()}}</a>
-                        </li>
-                    </ul>
+                <div class="col-md-6  directory-content-list top-left panel panel-primary">
+                    <div class="panel-heading" *ngIf="selectedDir.getName()">
+                        <h3 class="panel-title">{{selectedDir.getName() | stripUnderscore:'_':'-'}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped" *ngIf="currentDirContent.length > 0">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="#file of currentDirContent">
+                                <td><span class="glyphicon glyphicon-music"></span></td>
+                                <td><a (click)="currentFile=file">{{file.getName()}}</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
-                <div class="col-md-6 top-right">
+                <div class="col-md-6 top-right  panel panel-default">
                     <div>
                         <p>
                             Genre <span class="badge">{{currentDirGenre.length}}</span>:
@@ -43,12 +58,12 @@
                         </p>
                     </div>
 
-                    <div *ngIf="currentDirGenre.length == 1 && currentDirYear.length == 1 && !alreadyInStackAction(selectedDir)">
-                        <button type="button" class="btn btn-success btn-xs" (click)="moveToCollection(selectedDir)" >
+                    <div *ngIf="currentDirGenre.length == 1 && currentDirYear.length == 1">
+                        <button type="button" class="btn btn-success btn-xs" (click)="moveToCollection(selectedDir)" *ngIf="!alreadyInStackAction(selectedDir)">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                             Add to collection
                         </button>
-                        <button type="button" class="btn btn-danger btn-xs" (click)="moveToDelete(selectedDir)" >
+                        <button type="button" class="btn btn-danger btn-xs" (click)="moveToDelete(selectedDir)" *ngIf="!alreadyInStackAction(selectedDir)">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             Add to Delete
                         </button>
@@ -66,36 +81,63 @@
 
                 </div>
 
-                <div class="col-md-6 bottom-left">
-                    <div class="col-md-12">
-                        <h4>Delete queue</h4>
-                        <p><a href="#" (click)="applyDelete()">Apply</a> </p>
-                        <ul>
-                            <li *ngFor="#deleteItem of getDeleteStack()">
-                                <button type="button" class="btn btn-danger btn-xs" (click)="rmDeleteQueue(deleteItem)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-
-                                {{deleteItem.name}}
+                <div class="col-md-6 bottom-left panel panel-warning">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Delete queue ({{getDeleteStack().length}})</h4>
+                        <ul class="action-link-list">
+                            <li>
+                                <a href="#" (click)="applyDelete()" class="color-black" title="Apply/Push messages">
+                                    <span class="glyphicon glyphicon-floppy-save"></span>
+                                </a>
                             </li>
                         </ul>
                     </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr *ngFor="#deleteItem of getDeleteStack()">
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-xs" (click)="rmDeleteQueue(deleteItem)">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                                <td>{{deleteItem.name}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="col-md-6 bottom-right">
-                    <div class="col-md-12">
-                    <h4>Collection queue</h4>
-                        <p><a href="#" (click)="applyMove()">Apply</a> </p>
-                        <ul>
-                            <li *ngFor="#saveItem of getMoveStack()">
-                                <button type="button" class="btn btn-danger btn-xs" (click)="rmCollectionQueue(saveItem)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                                {{saveItem.name}}
+                <div class="col-md-6 bottom-right panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Collection queue ({{getMoveStack().length}})</h4>
+                        <ul class="action-link-list">
+                            <li>
+                                <a href="#" (click)="applyMove()" class="color-black" title="Apply/Push messages">
+                                    <span class="glyphicon glyphicon-floppy-save"></span>
+                                </a>
                             </li>
                         </ul>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr *ngFor="#saveItem of getMoveStack()">
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-xs" (click)="rmCollectionQueue(saveItem)">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                                <td>{{saveItem.name}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
                 <div class="col-md-12 player" >
                     <span *ngIf="currentFile">
                         {{currentFile.getName()}}
-                        <audio controls autoplay [src]="getPlayLink(currentFile)">
+                        <audio controls autoplay [src]="getPlayLink(currentFile)" [volume]="0.5">
                             <source [src]="getPlayLink(currentFile)" type="audio/mpeg">
                         </audio>
                     </span>

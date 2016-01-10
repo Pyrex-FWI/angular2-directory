@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', './file-system', './directory.service', './directory-tree.component'], function(exports_1) {
+System.register(['angular2/core', 'angular2/common', './file-system', './directory.service', './directory-tree.component', './pipe/strip-undescore'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2/common', './file-system', './directo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, file_system_1, directory_service_1, directory_tree_component_1;
+    var core_1, common_1, file_system_1, directory_service_1, directory_tree_component_1, strip_undescore_1;
     var AppComponent;
     return {
         setters:[
@@ -26,12 +26,16 @@ System.register(['angular2/core', 'angular2/common', './file-system', './directo
             },
             function (directory_tree_component_1_1) {
                 directory_tree_component_1 = directory_tree_component_1_1;
+            },
+            function (strip_undescore_1_1) {
+                strip_undescore_1 = strip_undescore_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
                 function AppComponent(_directoryService) {
                     this._directoryService = _directoryService;
                     this.title = 'Sapar TM';
+                    this.directories = [];
                     this.selectedDir = new file_system_1.FsDirectory({ name: '', pathName: '' });
                     this.currentDirContent = [];
                     this.currentDirGenre = [];
@@ -143,6 +147,7 @@ System.register(['angular2/core', 'angular2/common', './file-system', './directo
                         //template:`<h1>{{title}}</h1>--{{selectedDir.getName()}}--
                         //<directory-tree [directories]="directories" (selectedChange)="selectDir($event)"></directory-tree>`,
                         templateUrl: 'app/app.html',
+                        pipes: [strip_undescore_1.StripUnderscorePipe]
                     }), 
                     __metadata('design:paramtypes', [directory_service_1.DirectoryService])
                 ], AppComponent);

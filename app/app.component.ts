@@ -3,6 +3,7 @@ import {FORM_DIRECTIVES} from 'angular2/common';
 import {FsItem, FsDirectory} from './file-system';
 import {DirectoryService} from './directory.service';
 import {DirectoryTreeCompoenent} from './directory-tree.component';
+import {StripUnderscorePipe} from './pipe/strip-undescore';
 
 @Component({
     selector: 'angular-app',
@@ -12,11 +13,12 @@ import {DirectoryTreeCompoenent} from './directory-tree.component';
     //template:`<h1>{{title}}</h1>--{{selectedDir.getName()}}--
     //<directory-tree [directories]="directories" (selectedChange)="selectDir($event)"></directory-tree>`,
     templateUrl: 'app/app.html',
+    pipes: [StripUnderscorePipe]
 
 })
 export class AppComponent implements OnInit{
     public title = 'Sapar TM';
-    public directories: FsDirectory[];
+    public directories: FsDirectory[] = [];
     public selectedDir:  FsDirectory = new FsDirectory({name:'', pathName:''});
     public currentDirContent: Array<T> = [];
     public currentFile: FsItem;
