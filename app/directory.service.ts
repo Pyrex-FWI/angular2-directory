@@ -69,14 +69,14 @@ export class DirectoryService {
      */
     getDirectoryGenre(dir: FsItem): Promise<FsItem> {
         console.log('Directory service getDirectoryContent');
-        return window.fetch(this.getDirectoryUri('/directory/genre', dir.getPathName()))
+        return window.fetch(this.getDirectoryUri('/directory/get-dir-metadata', dir.getPathName()))
             .then((result:any) => result.json());
     }
 
     applyGenreYear(dir: FsItem, genre, year): void {
         console.log(genre);
         console.log(year);
-        url = this.baseUrl + '/directory/set-metadata?path='+dir.getPathName()+'&g='+genre+'&y='+year;
+        url = this.baseUrl + '/directory/set-dir-metadata?path='+dir.getPathName()+'&g='+genre+'&y='+year;
         return window.fetch(url,  {
             mode: 'no-cors'
         });
@@ -122,5 +122,22 @@ export class DirectoryService {
             });
         Lockr.set('rmCollectionQueue', this.deleteStack);
 
+    }
+
+    copyToDdj(file:FsItem) :void {
+        var url = this.baseUrl + '/directory/add_into_ddp?file='+ file.getPathName();
+        console.log(url);
+        /*
+         window.fetch(url,  {
+         mode: 'no-cors'
+         })
+         .then((result:any) => console.log(result.json()))
+         .then((json:any) => {
+         console.log(json);
+         if (this.moveStack.length > 0) {
+         return this.applyMove();
+         }
+         });
+         */
     }
 }

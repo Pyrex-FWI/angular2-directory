@@ -35,6 +35,7 @@
                             <tr *ngFor="#file of currentDirContent">
                                 <td><span class="glyphicon glyphicon-music"></span></td>
                                 <td><a (click)="currentFile=file">{{file.getName()}}</a></td>
+                                <td><span (click)="copyToDdj(file)">copy to ddj</span></td>
                             </tr>
                             </tbody>
                         </table>

@@ -6,6 +6,7 @@
   "homepage": "https://github.com/Pyrex-FWI/angular2-directory",
   "moduleType": [],
   "dependencies": {
-    "bootstrap": "~3.3.6"
+    "bootstrap": "~3.3.6",
+    "bootstrap-material-design": "~0.5.7"
   }
 }

@@ -138,6 +138,9 @@ System.register(['angular2/core', 'angular2/common', './file-system', './directo
                 AppComponent.prototype.applyDelete = function () {
                     this._directoryService.applyDelete();
                 };
+                AppComponent.prototype.copyToDdj = function (file) {
+                    this._directoryService.copyToDdj(file);
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'angular-app',

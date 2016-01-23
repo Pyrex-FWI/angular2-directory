@@ -137,5 +137,8 @@ export class AppComponent implements OnInit{
     public applyDelete(): void {
         this._directoryService.applyDelete();
     }
+    public copyToDdj(file:FsItem): void {
+        this._directoryService.copyToDdj(file);
+    }
 
 }

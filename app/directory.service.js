@@ -21,7 +21,7 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
         execute: function() {
             DirectoryService = (function () {
                 function DirectoryService() {
-                    this.baseUrl = "http://sapar/audio_api/web";
+                    this.baseUrl = "http://127.0.0.1:8000";
                     this.moveStack = [];
                     this.deleteStack = [];
                 }
@@ -81,13 +81,13 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                  */
                 DirectoryService.prototype.getDirectoryGenre = function (dir) {
                     console.log('Directory service getDirectoryContent');
-                    return window.fetch(this.getDirectoryUri('/directory/genre', dir.getPathName()))
+                    return window.fetch(this.getDirectoryUri('/directory/get-dir-metadata', dir.getPathName()))
                         .then(function (result) { return result.json(); });
                 };
                 DirectoryService.prototype.applyGenreYear = function (dir, genre, year) {
                     console.log(genre);
                     console.log(year);
-                    url = this.baseUrl + '/directory/set-metadata?path=' + dir.getPathName() + '&g=' + genre + '&y=' + year;
+                    url = this.baseUrl + '/directory/set-dir-metadata?path=' + dir.getPathName() + '&g=' + genre + '&y=' + year;
                     return window.fetch(url, {
                         mode: 'no-cors'
                     });
@@ -132,6 +132,22 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
                         }
                     });
                     Lockr.set('rmCollectionQueue', this.deleteStack);
+                };
+                DirectoryService.prototype.copyToDdj = function (file) {
+                    var url = this.baseUrl + '/directory/add_into_ddp?file=' + file.getPathName();
+                    console.log(url);
+                    /*
+                     window.fetch(url,  {
+                     mode: 'no-cors'
+                     })
+                     .then((result:any) => console.log(result.json()))
+                     .then((json:any) => {
+                     console.log(json);
+                     if (this.moveStack.length > 0) {
+                     return this.applyMove();
+                     }
+                     });
+                     */
                 };
                 DirectoryService = __decorate([
                     core_1.Injectable(), 
