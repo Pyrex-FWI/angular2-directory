@@ -21,7 +21,7 @@ System.register(['angular2/core', './file-system'], function(exports_1) {
         execute: function() {
             DirectoryService = (function () {
                 function DirectoryService() {
-                    this.baseUrl = "http://127.0.0.1:8000";
+                    this.baseUrl = "http://sapar/audio_api/web";
                     this.moveStack = [];
                     this.deleteStack = [];
                 }
